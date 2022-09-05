@@ -8,7 +8,7 @@
     <div class="block1">
       <div class="card1" v-for="item in cards" :key="item.id">
         <!-- <div :style="{backgroundImage: `url(${item.Picture})`}"></div> -->
-        <a v-bind:href="url+item.ActivityID"><img src="http://picsum.photos/300/200/?random=2" alt=""/></a>
+        <a v-bind:href="url+item.ActivityID+`&county=`+item.Address.substring(0,3)"><img src="http://picsum.photos/300/200/?random=2" alt=""/></a>
         <h4>{{item.ActivityName}}</h4>
         <p>{{item.Address.substring(0,6) }}</p>
         <p>{{item.SrcUpdateTime.substring(0,10).split('-').join('/')}} ~ 2021/12/26</p>
@@ -65,7 +65,7 @@ export default {
       card2:[],
       card3:[],
       TourList:[],
-      url:'http://localhost:8081/#/Main?tourId='
+      url:'http://localhost:8080/#/Main?tourId='
     }
   },
   methods: {
@@ -77,7 +77,7 @@ export default {
         headers: GetAuthorizationHeader(),
       })
       .then((response) => {
-        vm.cards = response.data      
+        vm.cards = response.data
         //console.log("測試用", response.data); 
       })
       .catch((err) => {
