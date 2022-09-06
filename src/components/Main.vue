@@ -148,14 +148,32 @@ export default {
 
     //縣市中英文轉換 拿到的會是中文
     getToEngCounty(county) {
-
       const locationMapping = { 
         "臺北市": "Taipei", 
-        "高雄市": "Kaohsiung",
-        "澎湖縣": "PenghuCounty"
+        "新北市": "NewTaipei",
+        "澎湖縣": "PenghuCounty",
+        "桃園市":"Taoyuan",
+        "台中市":"Taichung",
+        "台南市":"Tainan",
+        "高雄市":"Kaohsiung",
+        "基隆市":"Keelung",
+        "新竹市":"Hsinchu",
+        "新竹縣":"HsinchuCounty",
+        "苗栗縣":"MiaoliCounty",
+        "彰化縣":"ChanghuaCounty",
+        "南投縣":"NantouCounty",
+        "雲林縣":"YunlinCounty",
+        "嘉義縣":"ChiayiCounty",
+        "嘉義市":"Chiayi",
+        "屏東縣":"PingtungCounty",
+        "宜蘭縣":"YilanCounty",
+        "花蓮縣":"HualienCounty",
+        "台東縣":"TaitungCounty",
+        "金門縣":"KinmenCounty",
+        "澎湖縣":"PenghuCounty",
+        "連江縣":"LienchiangCounty",
       }
-
-      
+  
       console.log("測試中",locationMapping[county])
       return locationMapping[county]
       // const converLocation = (location) => locationMapping[location]
