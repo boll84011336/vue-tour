@@ -9,7 +9,7 @@
       />
       <img class="bg" src="../../photo/Rectangle 2.png" alt="" />
       <nav class="navbar">
-        <a href="#" class="title">Taiwan 台灣旅遊</a>
+        <a @click="goHome()" class="title">Taiwan 台灣旅遊</a>
         <div class="list">
           <a href="">旅遊景點</a>
           <a href="">推薦住宿</a>
@@ -79,31 +79,14 @@
         <h3>周邊住宿推薦</h3>
         <button class="more1">查看更多</button>
       </div>
-
+                        
       <div class="wrap">
-        <div class="item">
-          <img src="http://picsum.photos/300/300/?random=1" alt="" />
-          <h2>2021台北燈節</h2>
-          <p>台北市萬華區</p>
-          <p>2021/12/17 ~ 2021/12/26</p>
-        </div>
-        <div class="item">
-          <img src="http://picsum.photos/300/300/?random=2" alt="" />
-          <h2>2021台北燈節</h2>
-          <p>台北市萬華區</p>
-          <p>2021/12/17 ~ 2021/12/26</p>
-        </div>
-        <div class="item">
-          <img src="http://picsum.photos/300/300/?random=3" alt="" />
-          <h2>2021台北燈節</h2>
-          <p>台北市萬華區</p>
-          <p>2021/12/17 ~ 2021/12/26</p>
-        </div>
-        <div class="item">
-          <img src="http://picsum.photos/300/300/?random=4" alt="" />
-          <h2>{{ TourDetail.ActivityName }}</h2>
-          <p>台北市萬華區</p>
-          <p>2021/12/17 ~ 2021/12/26</p>
+        <div class="item" v-for="item in NearHouse" :key="item.HotelID">
+          <!-- <img src="http://picsum.photos/300/300/?random=1" alt="" /> -->
+          <img :src="item.Picture.PictureUrl1" title=""/>
+          <h2>{{item.HotelName}}</h2>
+          <p>{{item.Address.substring(0,6)}}</p>
+          <p>電話:{{item.Phone}}</p>
         </div>
       </div>
 
@@ -125,7 +108,9 @@ export default {
       TourDetail: [],
       county: "",
       NearHouse: [],
-      showCounty: ""
+      NearFood: [],
+      showCounty: "",
+      
     };
   },
   methods: {
@@ -182,10 +167,7 @@ export default {
     getNearHouse() {
       const vm = this;
       let county = vm.$route.query.county
-      console.log("網址上的縣市",county)
-      
       let EngCounty = this.getToEngCounty(county)
-      console.log("網址上英文縣市",vm.getToEngCounty(county))
 
       axios
         .get(
@@ -196,16 +178,59 @@ export default {
         )
         .then(response => {
           vm.NearHouse = response.data;
-          console.log("鄰近地區的data",response.data);
+          //console.log("附近民宿",response.data)       
         })
         .catch(err => {
           console.error(err);
-        });      
-            
-      
+        });   
+    },
+
+    //取得附近美食
+    getNearFood() {
+      const vm = this;
+      let county = vm.$route.query.county
+      let EngCounty = this.getToEngCounty(county)
+      axios
+        .get(
+          `https://tdx.transportdata.tw/api/basic/v2/Tourism/Restaurant/${EngCounty}?%24top=4&%24format=JSON`,
+          {
+            headers: GetAuthorizationHeader()
+          }
+        )
+        .then(response => {
+          if (response.data.length <= 0) {
+            this.getNearOtherFood()
+          }
+          vm.NearFood = response.data;
+          console.log("附近美食",response.data)       
+        })
+        .catch(err => {
+          console.error(err);
+        });   
+    },
+
+    //取得附近美食 額外處理沒資料
+    getNearOtherFood() {
+      const vm = this;
+      let county = vm.$route.query.county
+      axios
+        .get(
+          `https://tdx.transportdata.tw/api/basic/v2/Tourism/Restaurant/NewTaipei?%24top=4&%24format=JSON`,
+          {
+            headers: GetAuthorizationHeader()
+          }
+        )
+        .then(response => {
+          vm.NearFood = response.data;
+          // console.log("附近美食",response.data)       
+        })
+        .catch(err => {
+          console.error(err);
+        });   
     },
 
    
+
 
     //縣市分區
     getCountyClass(county) {
@@ -250,11 +275,18 @@ export default {
           console.log(`Sorry, we are out of ${county}.`);
           break;
       }
-    }
+    },
+
+    goHome() {  
+      const vm = this;
+      this.$router.push({path:'/'})
+    },
   },
   created() {
-    //this.getTourList();
+    this.getTourList();
     this.getNearHouse();
+    this.getNearFood();
+    //this.getNearHousePhoto();
 
   },
 
@@ -370,7 +402,6 @@ nav .list a {
   width: 1280px;
   display: flex;
   margin: auto;
-  /* margin: auto;沒用 */
   /* 水平置中 */
   justify-content: center;
   /* 垂直置中 */
@@ -383,8 +414,7 @@ nav .list a {
   margin-bottom: 40px;
 }
 
-.more,
-.more1 {
+.more, .more1 {
   border: 1px solid saddlebrown;
   border-radius: 15px;
   background-color: #fd975e;
@@ -396,8 +426,6 @@ nav .list a {
 
 h3 {
   font-size: 36px;
-  /* align-items: center;
-    justify-content: center; */
 }
 
 .wrap {
@@ -407,6 +435,7 @@ h3 {
 
 .recommend .wrap {
   display: flex;
+  flex-direction: row;
 }
 
 .recommend .wrap .item {

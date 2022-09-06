@@ -3,7 +3,7 @@
     <Navbar></Navbar>
     <div class="sub_title">
       <h3>觀光活動</h3>
-      <button class="more btn" @click="TourMore()">查看更多</button>
+      <a class="more btn" v-bind:href="moreurl+moreClass[0]">查看更多</a>
     </div>
     <div class="block1">
       <div class="card1" v-for="item in cards" :key="item.id">
@@ -17,7 +17,7 @@
 
     <div class="sub_title">
       <h3>美食品嚐</h3>
-      <button class="more btn" @click="TourMore()">查看更多</button>
+      <a class="more btn" v-bind:href="moreurl+moreClass[1]">查看更多</a>
     </div>
     <div class="block1">
       <div class="card2" v-for="item in card2" :key="item.id">
@@ -32,7 +32,7 @@
 
     <div class="sub_title">
       <h3>住宿推薦</h3>
-      <div class="sub_title_btn"><button class="more btn">查看更多</button></div>
+      <a class="more btn" v-bind:href="moreurl+moreClass[2]">查看更多</a>
     </div>
     <div class="block1">
       <div class="card3" v-for="item in card3" :key="item.id">
@@ -65,7 +65,9 @@ export default {
       card2:[],
       card3:[],
       TourList:[],
-      url:'http://localhost:8080/#/Main?tourId='
+      url:`http://localhost:8082/#/Main?tourId=`,
+      moreurl: `http://localhost:8082/#/More?Class=`,
+      moreClass: [1,2,3]
     }
   },
   methods: {
@@ -139,8 +141,8 @@ export default {
     this.getTourList();
     // this.getLodgingList();
     // this.getRestaurantList()
-  }
-  ,
+  },
+  
   components: {
     Navbar
   }

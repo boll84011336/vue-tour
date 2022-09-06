@@ -19,15 +19,15 @@ Vue.use(VueRouter)
 
 export default new VueRouter({
 	routes: [
-		{
-			name: 'index',	
-			path: '/',
-			component: index
-		},
+		// {
+		// 	name: 'index',	
+		// 	path: '/',
+		// 	component: index
+		// },
 
 		{
 			name: 'Home',	
-			path: '/Home',
+			path: '/',
 			component: Home
 		},
 
