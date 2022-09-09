@@ -4,7 +4,6 @@ import VueRouter from 'vue-router'
 import '../assets/styles/reset.css'
 
 // 自訂的分頁元件 先把HelloWorld自訂為首頁
-import index from '@/components/HelloWorld'
 import Home from '@/components/Home'
 import More from '@/components/More'
 import Main from '@/components/Main'
