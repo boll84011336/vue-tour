@@ -11,19 +11,19 @@
             <a href="">美食饗宴</a>
         </div>
       </nav>
-  
+
       <!-- 從網址列抓來的 -->
       <ul class="path">
         <li>觀光活動</li>
         <li>北部地區</li>
         <li>台北市</li>
       </ul>
-    
+
       <h3 class="main_title">{{TourDetail.ActivityName}}</h3>
       <div class="banner">
         <img src="Rectangle 168.png" alt="">
       </div>
-    
+
       <div class="describe">
         <h3>景點介紹</h3>
         <p>
@@ -31,7 +31,7 @@
         </p>
 
         <h3>活動地點</h3>
-        <p>    
+        <p>
         （一）長沙街二段以南、艋舺大道以北、昆明街以西、環河南路二段以東。<br><br>
         （二）長沙街二段(康定路至西寧南路）、漢中街、成都路(漢中街至昆明街）。<br><br>
         （三）和平青草園。<br><br>
@@ -45,7 +45,7 @@
         <h3>周邊推薦美食</h3>
         <button class="more">查看更多</button>
       </div>
-      
+
       <div class="wrap">
         <div class="item">
           <img src="http://picsum.photos/300/300/?random=1" alt="">
@@ -104,12 +104,12 @@
           <p>2021/12/17 ~ 2021/12/26</p>
         </div>
       </div>
-  
+
       <div class="footer">
         TAIWAN 台灣旅遊
       </div>
     </div>
-   
+
   </div>
 
 </template>
@@ -118,7 +118,7 @@
 
 <script>
 import Navbar from './Navbar'
-import { GetAuthorizationHeader } from "@/api/getApiToken.js";
+import { getAccessToken } from "@/api/getApiToken.js";
 import axios from 'axios'
 
 
@@ -131,11 +131,12 @@ export default {
   },
   methods: {
     //取得所有觀光活動資料
-    getTourList() {
+    async getTourList() {
       const vm = this;
+      const accessToken = await getAccessToken()
       axios.get(`https://tdx.transportdata.tw/api/basic/v2/Tourism/Activity?%24top=13&%24format=JSON`,
       {
-        headers: GetAuthorizationHeader(),
+        headers: { "Authorization": `Bearer ${accessToken}` }
       })
       .then((response) => {
         vm.TourList = response.data
@@ -145,7 +146,7 @@ export default {
           if(this.$route.query.tourId == response.data[i].ActivityID) {
             vm.TourDetail = response.data[i]
           }
-        } 
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -154,7 +155,7 @@ export default {
   },
   created() {
     this.getTourList();
-   
+
   },
 
 
@@ -179,7 +180,7 @@ export default {
 
   .bgimg {
     position: absolute;
-    
+
   }
 
   .bg {
@@ -198,7 +199,7 @@ export default {
   nav .title  {
     font-size: 48px;
     padding-left: 25px;
-    
+
   }
 
 
@@ -280,16 +281,16 @@ export default {
     margin:auto;
     /* margin: auto;沒用 */
     /* 水平置中 */
-    justify-content: center;    
+    justify-content: center;
     /* 垂直置中 */
-    align-items: center;  
+    align-items: center;
     font-size: 30px;
     color: black;
     position: relative;
     font-weight: 800;
     border: 1px solid saddlebrown;
     margin-bottom: 40px;
-    
+
   }
 
   .more,.more1 {
@@ -312,10 +313,10 @@ export default {
     width: 1280px;
     margin: auto;
   }
-    
+
   .recommend .wrap {
     display: flex;
-    
+
   }
 
   .recommend .wrap .item{
@@ -333,7 +334,7 @@ export default {
   .content {
     /* position: absolute;
     transform:  translate(-50%,-50%); */
-    
+
   }
 
 

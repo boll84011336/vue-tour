@@ -16,7 +16,7 @@
           <img src="http://picsum.photos/385/200/?random=1" alt="">
           <h4>{{item.ActivityName}}</h4>
           <p style="font-weight:600;color:brown">地址:{{item.Address }}</p>
-          <p>{{item.SrcUpdateTime.substring(0,10).split('-').join('/')}} ~ 
+          <p>{{item.SrcUpdateTime.substring(0,10).split('-').join('/')}} ~
           {{item.UpdateTime.substring(0,10).split('-').join('/')}}</p>
         </div>
       </div>
@@ -28,8 +28,8 @@
   </div>
 
 
-    
-   
+
+
   </div>
 
 </template>
@@ -37,7 +37,7 @@
 <style scoped>
   /* .wrap h4 {
     line-height: 30px;
-    
+
   }
   .wrap > p {
     line-height: 30px;
@@ -106,7 +106,7 @@ nav .list a {
 	color: black;
 	font-weight: 800;
   /* 水平置中 */
-  justify-content: center; 
+  justify-content: center;
   /* 垂直置中 */
   align-items: center;
   /* border: 1px solid saddlebrown; */
@@ -178,7 +178,7 @@ nav .list a {
 
 <script>
 import Navbar from './Navbar'
-import { GetAuthorizationHeader } from "@/api/getApiToken.js";
+import { getAccessToken } from "@/api/getApiToken.js";
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
@@ -186,26 +186,27 @@ import VueAxios from 'vue-axios'
 export default {
   data() {
     return {
-      TourList:[],     
+      TourList:[],
     }
   },
-  methods: { 
+  methods: {
     // 這邊再加一個網址縣市的參數，上面一樣用func拉縣市，下一層用網址去撈，再把美食跟住宿用別支API抓出來
-    getTourMore() {  
+    async getTourMore() {
       const vm = this;
+      const accessToken = await getAccessToken()
       axios.get(`https://tdx.transportdata.tw/api/basic/v2/Tourism/Activity?%24top=30&%24format=JSON`,
       {
-        headers: GetAuthorizationHeader(),
+        headers: { "Authorization": `Bearer ${accessToken}` }
       })
       .then((response) => {
-        vm.TourList = response.data     
+        vm.TourList = response.data
         console.log("查看更多", response.data);
       })
       .catch((err) => {
         console.error(err);
       })
     }
-  
+
   },
   created() {
     this.getTourMore();

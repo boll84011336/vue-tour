@@ -24,7 +24,7 @@
         <!-- <div :style="{backgroundImage: `url(${item.Picture.PictureUrl1})`}"></div> -->
         <img src="http://picsum.photos/300/200/?random=2" alt="">
         <h4 style="display:inline-block">{{item.RestaurantName}}</h4>-<p style="display:inline-block">{{item.Class}}</p>
-    
+
         <p>{{item.Address.substring(0,6) }}</p>
         <p>{{item.SrcUpdateTime.substring(0,10).split('-').join('/')}} ~ 2021/12/26</p>
       </div>
@@ -40,7 +40,7 @@
         <img src="http://picsum.photos/300/200/?random=3" alt="">
         <h4>{{item.HotelName}}</h4>
         <p>{{item.Address.substring(0,6) }}</p>
-        <p>{{item.SrcUpdateTime.substring(0,10).split('-').join('/')}} ~ 
+        <p>{{item.SrcUpdateTime.substring(0,10).split('-').join('/')}} ~
           {{item.UpdateTime.substring(0,10).split('-').join('/')}}</p>
       </div>
     </div>
@@ -53,7 +53,7 @@
 
 <script>
 import Navbar from './Navbar'
-import { GetAuthorizationHeader } from "@/api/getApiToken.js";
+import { getAccessToken } from "@/api/getApiToken.js";
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
@@ -65,20 +65,20 @@ export default {
       card2:[],
       card3:[],
       TourList:[],
-      url:'http://localhost:8081/#/Main?tourId='
+      url:'http://localhost:8080/#/Main?tourId='
     }
   },
   methods: {
     //取得所有觀光活動資料
-    getTourList() {
+    async getTourList() {
       const vm = this;
+      const accessToken = await getAccessToken()
+      console.log('accessToken', accessToken)
       axios.get(`https://tdx.transportdata.tw/api/basic/v2/Tourism/Activity?%24top=3&%24format=JSON`,
-      {
-        headers: GetAuthorizationHeader(),
-      })
+      { headers: { "Authorization": `Bearer ${accessToken}` } })
       .then((response) => {
-        vm.cards = response.data      
-        //console.log("測試用", response.data); 
+        vm.cards = response.data
+        //console.log("測試用", response.data);
       })
       .catch((err) => {
         console.error(err);
@@ -93,9 +93,9 @@ export default {
         headers: GetAuthorizationHeader(),
       })
       .then((response) => {
-        vm.card2 = response.data      
+        vm.card2 = response.data
         console.log("餐廳測試用", response.data);
-        console.log("photo", response.data[1].Picture.PictureUrl1) 
+        console.log("photo", response.data[1].Picture.PictureUrl1)
       })
       .catch((err) => {
         console.error(err);
@@ -110,25 +110,25 @@ export default {
         headers: GetAuthorizationHeader(),
       })
       .then((response) => {
-        vm.card3 = response.data      
-        console.log("住宿測試用", response.data); 
+        vm.card3 = response.data
+        console.log("住宿測試用", response.data);
       })
       .catch((err) => {
         console.error(err);
       })
     },
 
-    TourMore() {  
+    TourMore() {
       const vm = this;
       this.$router.push({path:'More'})
     },
 
-    TourAdd() {  
+    TourAdd() {
       const vm = this;
       this.$router.push({path:'Main'})
     }
-  
-    
+
+
 
     // console.log(vm.cards)
     // this.$http.get("https://tdx.transportdata.tw/api/basic/v2/Tourism/Restaurant?%24top=30&%24format=JSON").then((response) => {

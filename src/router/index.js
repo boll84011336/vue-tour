@@ -21,7 +21,7 @@ export default new VueRouter({
 		{
 			name: 'index',	
 			path: '/',
-			component: index
+			component: Home
 		},
 
 		{
