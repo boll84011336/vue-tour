@@ -30,7 +30,7 @@ const getAccessToken = async () => {
   return accessToken
 }
 
-const GetAuthorizationHeader = async () => {
+export const GetAuthorizationHeader = async () => {
   const accessToken = await getAccessToken()
   return { "Authorization": `Bearer ${accessToken}` }
 }
