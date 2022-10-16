@@ -53,7 +53,7 @@
 
 <script>
 import Navbar from './Navbar'
-import { getAccessToken } from "@/api/getApiToken.js";
+import { queryActivity } from "@/api/getApiToken.js";
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
@@ -72,17 +72,9 @@ export default {
     //取得所有觀光活動資料
     async getTourList() {
       const vm = this;
-      const accessToken = await getAccessToken()
-      console.log('accessToken', accessToken)
-      axios.get(`https://tdx.transportdata.tw/api/basic/v2/Tourism/Activity?%24top=3&%24format=JSON`,
-      { headers: { "Authorization": `Bearer ${accessToken}` } })
-      .then((response) => {
-        vm.cards = response.data
-        //console.log("測試用", response.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      })
+      const data = await queryActivity(3)
+      console.log('data', data)
+      vm.cards = data
     },
 
     // 餐廳
@@ -137,8 +129,6 @@ export default {
   },
   created() {
     this.getTourList();
-    // this.getLodgingList();
-    // this.getRestaurantList()
   }
   ,
   components: {
