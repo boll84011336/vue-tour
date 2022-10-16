@@ -190,26 +190,44 @@ export default {
     }
   },
   methods: {
-    // 這邊再加一個網址縣市的參數，上面一樣用func拉縣市，下一層用網址去撈，再把美食跟住宿用別支API抓出來
-    async getTourMore() {
+    //剩兩個功能，如果分類是123就給相對應的More，如果是給縣市，就跑下面那支API。
+    //取得指定觀光景點
+    getDesignatedCounty() {
       const vm = this;
-      const accessToken = await getAccessToken()
-      axios.get(`https://tdx.transportdata.tw/api/basic/v2/Tourism/Activity?%24top=30&%24format=JSON`,
-      {
-        headers: { "Authorization": `Bearer ${accessToken}` }
-      })
-      .then((response) => {
-        vm.TourList = response.data
-        console.log("查看更多", response.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-    }
+      let county = vm.$route.query.county
+      let EngCounty = this.getToEngCounty(county)
 
+      axios
+        .get(
+          `https://tdx.transportdata.tw/api/basic/v2/Tourism/ScenicSpot/${EngCounty}?%24top=30&%24format=JSON`,
+          {
+            headers: GetAuthorizationHeader()
+          }
+        )
+        .then(response => {
+          vm.TourList = response.data
+          console.log("查看更多", response.data);    
+        })
+        .catch(err => {
+          console.error(err);
+        });   
+    },
+
+    //縣市中英文轉換 拿到的會是中文
+    getToEngCounty(county) {
+    const locationMapping = { 
+      "臺北市": "Taipei", 
+      "高雄市": "Kaohsiung",
+      "澎湖縣": "PenghuCounty"
+    }
+    console.log("測試中",locationMapping[county])
+    return locationMapping[county]
+    // const converLocation = (location) => locationMapping[location]
+    // console.log(converLocation(county))
+    },
   },
   created() {
-    this.getTourMore();
+    this.getDesignatedCounty();
   }
   ,
   components: {

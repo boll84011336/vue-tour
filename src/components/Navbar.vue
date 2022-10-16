@@ -1,10 +1,9 @@
 <template>
-
   <div class="header">
     <img class="bgimg" src="../../photo/Rectangle 24.png" height="80px" alt="">
     <img class="bg" src="../../photo/Rectangle 2.png" alt="">
     <nav class="navbar">
-      <a href="#" class="title">Taiwan 台灣旅遊</a>
+      <a @click="goHome()" class="title">Taiwan 台灣旅遊</a>
       <div class="list">
           <a href="">旅遊景點</a>
           <a href="">推薦住宿</a>
@@ -12,8 +11,20 @@
       </div>
     </nav>
   </div>
-
 </template>
+<script>
+export default {
+
+  methods: {
+    goHome() {  
+      const vm = this;
+      this.$router.push({path:'/'})
+    },
+  }
+}
+
+</script>
+
 
 <style scoped>
   .header {      
@@ -66,12 +77,6 @@
       /* 讓底部無空隙 */
     }
   </style>
-
-<script>
-export default {
- 
-}
-</script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 

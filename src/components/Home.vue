@@ -3,12 +3,12 @@
     <Navbar></Navbar>
     <div class="sub_title">
       <h3>觀光活動</h3>
-      <button class="more btn" @click="TourMore()">查看更多</button>
+      <a class="more btn" v-bind:href="moreurl+moreClass[0]">查看更多</a>
     </div>
     <div class="block1">
       <div class="card1" v-for="item in cards" :key="item.id">
         <!-- <div :style="{backgroundImage: `url(${item.Picture})`}"></div> -->
-        <a v-bind:href="url+item.ActivityID"><img src="http://picsum.photos/300/200/?random=2" alt=""/></a>
+        <a v-bind:href="url+item.ActivityID+`&county=`+item.Address.substring(0,3)"><img src="http://picsum.photos/300/200/?random=2" alt=""/></a>
         <h4>{{item.ActivityName}}</h4>
         <p>{{item.Address.substring(0,6) }}</p>
         <p>{{item.SrcUpdateTime.substring(0,10).split('-').join('/')}} ~ 2021/12/26</p>
@@ -17,7 +17,7 @@
 
     <div class="sub_title">
       <h3>美食品嚐</h3>
-      <button class="more btn" @click="TourMore()">查看更多</button>
+      <a class="more btn" v-bind:href="moreurl+moreClass[1]">查看更多</a>
     </div>
     <div class="block1">
       <div class="card2" v-for="item in card2" :key="item.id">
@@ -32,7 +32,7 @@
 
     <div class="sub_title">
       <h3>住宿推薦</h3>
-      <div class="sub_title_btn"><button class="more btn">查看更多</button></div>
+      <a class="more btn" v-bind:href="moreurl+moreClass[2]">查看更多</a>
     </div>
     <div class="block1">
       <div class="card3" v-for="item in card3" :key="item.id">
@@ -65,7 +65,9 @@ export default {
       card2:[],
       card3:[],
       TourList:[],
-      url:'http://localhost:8080/#/Main?tourId='
+      url:'http://localhost:8080/#/Main?tourId=',
+      moreurl: `http://localhost:8080/#/More?Class=`,
+      moreClass: [1,2,3]
     }
   },
   methods: {
@@ -129,8 +131,10 @@ export default {
   },
   created() {
     this.getTourList();
-  }
-  ,
+    // this.getLodgingList();
+    // this.getRestaurantList()
+  },
+  
   components: {
     Navbar
   }
