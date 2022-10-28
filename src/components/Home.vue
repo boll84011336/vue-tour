@@ -65,8 +65,8 @@ export default {
       card2:[],
       card3:[],
       TourList:[],
-      url:`http://localhost:8082/#/Main?tourId=`,
-      moreurl: `http://localhost:8082/#/More?Class=`,
+      url:`http://localhost:8080/#/Main?tourId=`,
+      moreurl: `http://localhost:8080/#/More?Class=`,
       moreClass: [1,2,3]
     }
   },
