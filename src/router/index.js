@@ -1,6 +1,6 @@
 //官方元件
 import Vue from 'vue'
-import VueRouter from 'vue-router'
+import {VueRouter , createWebHashHistory} from 'vue-router'
 import '../assets/styles/reset.css'
 
 // 自訂的分頁元件 先把HelloWorld自訂為首頁
@@ -18,6 +18,7 @@ Vue.use(VueRouter)
 //自訂元件必須要可以匯出給main使用 所以用export
 
 export default new VueRouter({
+	history: createWebHashHistory(),
 	routes: [
 		// {
 		// 	name: 'index',	
