@@ -10,9 +10,6 @@ import More from '@/components/More'
 import Main from '@/components/Main'
 
 
-
-
-
 Vue.use(VueRouter)
 
 //自訂元件必須要可以匯出給main使用 所以用export
