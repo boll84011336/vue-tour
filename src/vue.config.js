@@ -7,7 +7,7 @@ module.exports = {
             $: 'jquery',
             jquery: 'jquery',
             jQuery: 'jquery',
-            'window.jquery': 'jquery'
+            'window.jQuery': 'jquery'
         }])
     }
 }
