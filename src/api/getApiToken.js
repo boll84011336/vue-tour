@@ -7,8 +7,8 @@
 import JsSHA from "jssha";
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import jquery from 'jQuery'
-window.jQuery = jquery
+import jquery from 'jquery'
+window.jquery = jquery
 
 // export const GetAuthorizationHeader = () => {
 //     const AppID = "boll84011336-23529835-9ef6-47e5";
