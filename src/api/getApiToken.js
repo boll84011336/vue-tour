@@ -7,8 +7,8 @@
 import JsSHA from "jssha";
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import jQuery from 'jQuery'
-window.jQuery = jQuery
+import jquery from 'jQuery'
+window.jQuery = jquery
 
 // export const GetAuthorizationHeader = () => {
 //     const AppID = "boll84011336-23529835-9ef6-47e5";
@@ -35,7 +35,7 @@ export function GetAuthorizationHeader() {
   
   let auth_url = "https://tdx.transportdata.tw/auth/realms/TDXConnect/protocol/openid-connect/token";
       
-  jQuery.ajax({
+  jquery.ajax({
       type: "POST",
       url: auth_url,
       crossDomain:true,
@@ -43,7 +43,7 @@ export function GetAuthorizationHeader() {
       data: parameter,
       async: false,       
       success: function(data){            
-        jQuery("#accesstoken").text(JSON.stringify(data));                            
+        jquery("#accesstoken").text(JSON.stringify(data));                            
       },
       error: function (xhr, textStatus, thrownError) {
           
@@ -58,7 +58,7 @@ export function GetApiResponse(){
 
   if(accesstoken !=undefined){
     
-    jQuery.ajax({
+    jquery.ajax({
           type: 'GET',
           url: 'https://tdx.transportdata.tw/api/basic/v2/Rail/TRA/LiveTrainDelay?$top=30&$format=JSON',            
           headers: {
@@ -66,7 +66,7 @@ export function GetApiResponse(){
             },            
           async: false,
           success: function (Data) {
-            jQuery('#apireponse').text(JSON.stringify(Data));                
+            jquery('#apireponse').text(JSON.stringify(Data));                
               console.log('Data', Data);
           },
           error: function (xhr, textStatus, thrownError) {
