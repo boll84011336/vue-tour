@@ -139,8 +139,8 @@ export default {
   },
   created() {
     this.getTourList();
-    // this.getLodgingList();
-    // this.getRestaurantList()
+    this.getLodgingList();
+    this.getRestaurantList()
   },
   
   components: {
